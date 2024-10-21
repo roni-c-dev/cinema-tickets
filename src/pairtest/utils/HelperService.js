@@ -29,6 +29,12 @@ export default class HelperService {
         } else return true
     };
 
+    // hasValidAmountOfAdultsPresent(ticketTypeRequests) {
+    //      if(ticketTypeRequests.find(getTicketType() === "ADULT")){
+    //          return true
+    //      } else return false
+    //  }
+
     /**
      * accountID should be an integer greater than zero
      * @param { Integer } accountID 

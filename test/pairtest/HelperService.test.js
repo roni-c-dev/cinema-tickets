@@ -26,15 +26,15 @@ describe("HelperService", () => {
         });
 
         test.each([
-            [false, bigFamilyReq],
-            [false, [zeroAdultReq]],
-            [false, [twoChildReq]],
-            [false, childrenAndInfantsWithZeroAdultReq],
-            [true, [oneAdultReq]],
-            [true, familyReq]
+            [false, bigFamilyReq, "1 adult, 2 child, 2 infant"],
+            [false, [zeroAdultReq], "Zero adults"],
+            [false, [twoChildReq], "2 children no adult"],
+            [false, childrenAndInfantsWithZeroAdultReq, "Zero adult, 2 child, 2 infant"],
+            [true, [oneAdultReq], "1 adult"],
+            [true, familyReq, "1 adult, 2 child, 1 infant"]
             
         ])(
-            "it should return %true_or_false for request %given_request",
+            "it should return %j for request %j (%j)",
             (result, request) => {
                 expect (HELPER_SERVICE.hasValidAmountOfAdultsPresent(request)).toBe(result);
             }
@@ -56,7 +56,7 @@ describe("HelperService", () => {
             [true, 123e5],
             
         ])(
-            "it should return %true_or_false for accountID %given_id",
+            "it should return %j for accountID %j",
             (result, accountId) => {
                 expect (HELPER_SERVICE.hasValidAccountID(accountId)).toBe(result);
             }

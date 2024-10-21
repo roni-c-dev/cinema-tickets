@@ -20,12 +20,12 @@ describe("TicketPaymentService", () => {
 
     describe("Failure scenarios", () => {
         test.each([
-            ["ONE", 50],
-            [null, 50],
-            [undefined, 50],
-            ["898", 50]
+            ["ONE", 50, "string"],
+            [null, 50, "null"],
+            [undefined, 50, "undefined"],
+            ["898", 50, "number as string"]
         ])(
-            "it should throw error if request made with bad accountID %i and valid integer payment amount %i",
+            "it should throw error if request made with bad accountID %j and valid integer payment amount 50 (%j)",
             (accountId, totalAmountToPay) => {
                 expect(() => {
                     TICKET_PAYMENT_SERVICE.makePayment(accountId, totalAmountToPay);
