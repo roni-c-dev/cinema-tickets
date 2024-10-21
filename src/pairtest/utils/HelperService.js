@@ -3,8 +3,6 @@
  * and retain the business rules outside TicketService
  */
 
-import TicketTypeRequest from "../lib/TicketTypeRequest";
-
 export default class HelperService {
     MAXIMUM_TICKET_LIMIT = 25;
     ADULT_TICKET_PRICE = 25;
