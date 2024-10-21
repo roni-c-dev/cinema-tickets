@@ -3,8 +3,6 @@
  * and retain the business rules outside TicketService
  */
 
-import TicketTypeRequest from "../lib/TicketTypeRequest";
-
 export default class HelperService {
     MAXIMUM_TICKET_LIMIT = 25;
     ADULT_TICKET_PRICE = 25;
@@ -28,12 +26,6 @@ export default class HelperService {
             return false
         } else return true
     };
-
-    // hasValidAmountOfAdultsPresent(ticketTypeRequests) {
-    //      if(ticketTypeRequests.find(getTicketType() === "ADULT")){
-    //          return true
-    //      } else return false
-    //  }
 
     /**
      * accountID should be an integer greater than zero

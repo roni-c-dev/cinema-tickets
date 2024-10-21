@@ -25,7 +25,7 @@ describe("TicketPaymentService", () => {
             [undefined, 50, "undefined"],
             ["898", 50, "number as string"]
         ])(
-            "it should throw error if request made with bad accountID %j and valid integer payment amount 50 (%j)",
+            "it should throw error if request made with bad accountID %j and valid integer payment amount %j (%j)",
             (accountId, totalAmountToPay) => {
                 expect(() => {
                     TICKET_PAYMENT_SERVICE.makePayment(accountId, totalAmountToPay);

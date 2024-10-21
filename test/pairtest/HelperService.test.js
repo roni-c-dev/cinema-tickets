@@ -1,22 +1,13 @@
-import TicketTypeRequest from "../../src/pairtest/lib/TicketTypeRequest";
 import HelperService from "../../src/pairtest/utils/HelperService";
+import * as testdata from "./testdata";
 import { jest } from "@jest/globals";
 
 
 describe("HelperService", () => {
 
-    // Set up simple test data
+    // Test data is defined in testdata.js so it can be reused across files
     const HELPER_SERVICE = new HelperService();
-    const zeroAdultReq = new TicketTypeRequest("ADULT", 0);
-    const oneAdultReq = new TicketTypeRequest("ADULT", 1);
-    const twoChildReq = new TicketTypeRequest("CHILD", 2);
-    const oneInfantReq = new TicketTypeRequest("INFANT", 1);
-    const twoInfantReq = new TicketTypeRequest("INFANT", 2);
-    const familyReq = [oneAdultReq, twoChildReq, oneInfantReq];
-    const bigFamilyReq = [oneAdultReq,twoChildReq, twoInfantReq];
-    const childrenAndInfantsWithZeroAdultReq = [zeroAdultReq, twoChildReq, twoInfantReq]
-
-
+    
     describe("hasValidAmountOfAdultsPresent", () => {
         beforeEach(() => {
             jest.resetAllMocks();
@@ -26,12 +17,12 @@ describe("HelperService", () => {
         });
 
         test.each([
-            [false, bigFamilyReq, "1 adult, 2 child, 2 infant"],
-            [false, [zeroAdultReq], "Zero adults"],
-            [false, [twoChildReq], "2 children no adult"],
-            [false, childrenAndInfantsWithZeroAdultReq, "Zero adult, 2 child, 2 infant"],
-            [true, [oneAdultReq], "1 adult"],
-            [true, familyReq, "1 adult, 2 child, 1 infant"]
+            [false, testdata.bigFamilyReq, "1 adult, 2 child, 2 infant"],
+            [false, [testdata.zeroAdultReq], "Zero adults"],
+            [false, [testdata.twoChildReq], "2 children no adult"],
+            [false, testdata.childrenAndInfantsWithZeroAdultReq, "Zero adult, 2 child, 2 infant"],
+            [true, [testdata.oneAdultReq], "1 adult"],
+            [true, testdata.familyReq, "1 adult, 2 child, 1 infant"]
             
         ])(
             "it should return %j for request %j (%j)",
@@ -69,8 +60,12 @@ describe("HelperService", () => {
         });
 
         test("should count the total number of tickets in request", () => {
-            expect(HELPER_SERVICE.countTicketsInRequest(familyReq)).toBe(4)
+            expect(HELPER_SERVICE.countTicketsInRequest(testdata.familyReq)).toBe(4)
         });  
+
+        test("should count the total number of tickets in request even if it exceeds current limit", () => {
+            expect(HELPER_SERVICE.countTicketsInRequest(testdata.familyTooBigReq)).toBe(26)
+        }); 
     });
 
     describe("countSeatsInRequest", () => {
@@ -78,18 +73,31 @@ describe("HelperService", () => {
             expect(HELPER_SERVICE.countSeatsInRequest).toBeDefined();
         });
 
-        test("should count the total number of tickets in request", () => {
-            expect(HELPER_SERVICE.countSeatsInRequest(familyReq)).toBe(3);
+        test("should count the total number of seats in request", () => {
+            expect(HELPER_SERVICE.countSeatsInRequest(testdata.familyReq)).toBe(3);
         });
+
+        test("should count the total number of seats in request even if it exceeds current limit", () => {
+            expect(HELPER_SERVICE.countSeatsInRequest(testdata.familyTooBigReq)).toBe(25)
+        }); 
     });
 
     describe("calculatePayment", () => {
         test("should calculate the total payment due for requests", () => {
-            expect(HELPER_SERVICE.calculatePayment(familyReq)).toBe(55);
+            expect(HELPER_SERVICE.calculatePayment(testdata.familyReq)).toBe(55);
         })
 
         test("should calculate the NIL payment due for infant request", () => {
-            expect(HELPER_SERVICE.calculatePayment([twoInfantReq])).toBe(0)
+            expect(HELPER_SERVICE.calculatePayment([testdata.twoInfantReq])).toBe(0)
+        })
+
+        test("should calculate payment for exponential request", () => {
+            expect(HELPER_SERVICE.calculatePayment([testdata.exponentialAdultsReq])).toBe(3075000);
+        })
+
+        // TODO - look at calculation - don't think we really want to perform calculations for 0 or negs
+        test("should calculate payment for zero request", () => {
+            expect(HELPER_SERVICE.calculatePayment([testdata.zeroAdultReq])).toBe(0);
         })
     })
 
