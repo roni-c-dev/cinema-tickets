@@ -1,7 +1,7 @@
 name: CI
 
 on:
-# Removed the PR to test out operation on branch alone
+# Removed the PR to test out operation on branch alone - now after push
   push:
     branches:
       - '*refactor*'  # This will match any branch that contains "refactor"
