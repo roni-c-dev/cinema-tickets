@@ -22,6 +22,9 @@ Throws InvalidPurchaseException for
 ## Developer Assumptions
 It is assumed that each infant will sit on a single adult lap
 
+## CI/CD Pipeline
+A very simple Github Actions pipeline has been added to run unit tests on pull request to main, this can be updated to include various code quality and security checks, helping to prevent bugs and issues from entering the production environment.   Would also run further automated workflows here to push deployment artifacts to the relevant Cloud hosting platform (for example AWS)
+
 ## How to use this module
 To begin - clone the repo and run `npm install` to install required dependencies
 To run unit tests - `npm test`
