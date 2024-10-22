@@ -27,7 +27,7 @@ describe("HelperService", () => {
         ])(
             "it should return %j for request %j (%j)",
             (result, request) => {
-                expect (HELPER_SERVICE.hasValidAmountOfAdultsPresent(request)).toBe(result);
+                expect(HELPER_SERVICE.hasValidAmountOfAdultsPresent(request)).toBe(result);
             }
         );
 
@@ -39,15 +39,15 @@ describe("HelperService", () => {
         });
 
         test.each([
-            [false, "ONE"],
-            [false, 0],
-            [false, null],
-            [false, undefined],
-            [true, 123],
-            [true, 123e5],
+            [false, "ONE", "string"],
+            [false, 0, "zero"],
+            [false, null, "null"],
+            [false, undefined, "undefined"],
+            [true, 123, "valid integer"],
+            [true, 123e5, "valid exponential"],
             
         ])(
-            "it should return %j for accountID %j",
+            "it should return %j for accountID %j (%j)",
             (result, accountId) => {
                 expect (HELPER_SERVICE.hasValidAccountID(accountId)).toBe(result);
             }
@@ -59,13 +59,17 @@ describe("HelperService", () => {
             expect(HELPER_SERVICE.countTicketsInRequest).toBeDefined();
         });
 
-        test("should count the total number of tickets in request", () => {
-            expect(HELPER_SERVICE.countTicketsInRequest(testdata.familyReq)).toBe(4)
-        });  
-
-        test("should count the total number of tickets in request even if it exceeds current limit", () => {
-            expect(HELPER_SERVICE.countTicketsInRequest(testdata.familyTooBigReq)).toBe(26)
-        }); 
+        test.each([
+            [4, testdata.familyReq, "1 adult 2 child 1 infant"],
+            [26, testdata.familyTooBigReq, "25 adults 1 infant"],
+            [0, [testdata.zeroAdultReq], "0 adults - param intialised to 0"],    
+        ])(
+            "it should return %j for request %j (%j)",
+            (result, request) => {
+                expect (HELPER_SERVICE.countTicketsInRequest(request)).toBe(result);
+            }
+        );
+        
     });
 
     describe("countSeatsInRequest", () => {

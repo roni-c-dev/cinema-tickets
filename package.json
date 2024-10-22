@@ -10,8 +10,8 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
     "test:lint": "eslint .",
     "test:lint:fix": "eslint --fix .",
-    "security:vulnerabilities": "npm audit",
-    "security:vulnerabilities:production": "npm audit --skip-dev"
+    "audit": "npm audit",
+    "audit:production": "npm audit --skip-dev"
   },
   "devDependencies": {
     "eslint": "^9.13.0",

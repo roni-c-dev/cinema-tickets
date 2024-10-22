@@ -18,7 +18,7 @@ export default class HelperService {
     hasValidAmountOfAdultsPresent (ticketTypeRequests, adultsRequested = 0, infantsRequested = 0) {
         ticketTypeRequests.forEach(req => {
             if (req.getTicketType() === "INFANT") infantsRequested += req.getNoOfTickets();
-            if (req.getTicketType() === "ADULT") {
+            if (req.getTicketType() === "ADULT" && req.getNoOfTickets() !== 0) {
                 adultsRequested += req.getNoOfTickets();
             }
         });
@@ -46,7 +46,9 @@ export default class HelperService {
      */
     countTicketsInRequest (ticketTypeRequests, ticketCount = 0) {
         ticketTypeRequests.forEach(req => {
-            ticketCount += req.getNoOfTickets();
+            if (req.getNoOfTickets() !== 0){
+                ticketCount += req.getNoOfTickets();
+            }   
         })
         return ticketCount
     };
@@ -54,12 +56,12 @@ export default class HelperService {
     /**
      * Count the number of seats required for the request
      * @param { [TicketTypeRequest] } ticketTypeRequests 
-     * @param { Integer } seatCount 
+     * @param { Integer } seatCount  initialised to 0
      * @returns { Integer } seatCount
      */
     countSeatsInRequest (ticketTypeRequests, seatCount = 0) {
         ticketTypeRequests.forEach(req => {
-            if (req.getTicketType() !== "INFANT") {
+            if (req.getNoOfTickets() !== 0 && req.getTicketType() !== "INFANT") {
                 seatCount += req.getNoOfTickets();
             }
         })
@@ -69,21 +71,24 @@ export default class HelperService {
     /**
      * 
      * @param { [TicketTypeRequest] } ticketTypeRequests 
-     * @param { Integer } totalAmountToPay 
+     * @param { Integer } totalAmountToPay initialised to 0
      * @returns { Integer } totalAmountToPay
      */
     calculatePayment(ticketTypeRequests, totalAmountToPay = 0) {
         ticketTypeRequests.forEach(req => {
-            switch(req.getTicketType()) {
-                case "ADULT":
-                  totalAmountToPay += this.ADULT_TICKET_PRICE * req.getNoOfTickets();
-                  break;
-                case "CHILD":
-                  totalAmountToPay += this.CHILD_TICKET_PRICE * req.getNoOfTickets();
-                  break;
-                default:
-                  totalAmountToPay += this.INFANT_TICKET_PRICE * req.getNoOfTickets(); // currently 0
-              }
+            if(req.getNoOfTickets() !== 0){
+                switch(req.getTicketType()) {
+                    case "ADULT":
+                      totalAmountToPay += this.ADULT_TICKET_PRICE * req.getNoOfTickets();
+                      break;
+                    case "CHILD":
+                      totalAmountToPay += this.CHILD_TICKET_PRICE * req.getNoOfTickets();
+                      break;
+                    default:
+                      totalAmountToPay += this.INFANT_TICKET_PRICE * req.getNoOfTickets(); // currently 0
+                  }
+            }
+            
         })
         return totalAmountToPay;
     }
