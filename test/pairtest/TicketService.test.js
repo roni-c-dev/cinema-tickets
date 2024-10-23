@@ -38,7 +38,7 @@ describe("TicketService", () => {
     test("should not call booking services if no adult request present", () => {
         expect(() => {
             testTicketService.purchaseTickets(testdata.goodAccountNum, [testdata.twoChildReq]);
-        }).toThrow("Error during booking: Request did not contain the required number of adults");
+        }).toThrow("Error during booking: Invalid request: Request did not contain the required number of adults");
         expect(mockTicketPaymentService).not.toHaveBeenCalled();
         expect(mockSeatReservationService).not.toHaveBeenCalled();        
     });
@@ -46,7 +46,7 @@ describe("TicketService", () => {
     test("should throw error and not call booking services if too many seats requested", () => {
         expect(() => {
             testTicketService.purchaseTickets(testdata.goodAccountNum, [testdata.twentyFiveAdultsReq, testdata.oneInfantReq]);
-        }).toThrow("Error during booking: Booking cannot exceed the maximum limit of 25");
+        }).toThrow("Error during booking: Invalid request: Booking cannot exceed the maximum limit of 25");
         expect(mockTicketPaymentService).not.toHaveBeenCalled();
         expect(mockSeatReservationService).not.toHaveBeenCalled(); 
                 
@@ -56,7 +56,7 @@ describe("TicketService", () => {
     test("should throw error and not call booking services if no seats requested", () => {
         expect(() => {
             testTicketService.purchaseTickets(testdata.goodAccountNum, [testdata.zeroAdultReq]);
-        }).toThrow("Error during booking: Request did not contain the required number of adults");
+        }).toThrow("Error during booking: Invalid request: Request did not contain the required number of adults");
         expect(mockTicketPaymentService).not.toHaveBeenCalled();
         expect(mockSeatReservationService).not.toHaveBeenCalled(); 
     });
@@ -64,7 +64,7 @@ describe("TicketService", () => {
     test("should throw error and not call booking services if negative seats requested", () => {
         expect(() => {
             testTicketService.purchaseTickets(testdata.goodAccountNum, [testdata.negativeAdultReq]);
-        }).toThrow("Error during booking: Request did not contain the required number of adults");
+        }).toThrow("Error during booking: Invalid request: Request did not contain the required number of adults");
         expect(mockTicketPaymentService).not.toHaveBeenCalled();
         expect(mockSeatReservationService).not.toHaveBeenCalled(); 
     });
@@ -72,7 +72,7 @@ describe("TicketService", () => {
     test("should throw error and not call booking services if account number is not an integer", () => {
         expect(() => {
             testTicketService.purchaseTickets(testdata.stringAccountNum, [testdata.oneAdultReq]);
-        }).toThrow("Error during booking: Invalid account ID provided");
+        }).toThrow("Error during booking: Invalid request: Invalid account ID provided");
         expect(mockTicketPaymentService).not.toHaveBeenCalled();
         expect(mockSeatReservationService).not.toHaveBeenCalled();        
     });
@@ -80,7 +80,7 @@ describe("TicketService", () => {
     test("should throw error and not call booking services if account number is zero", () => {
         expect(() => {
             testTicketService.purchaseTickets(0, [testdata.oneAdultReq]);
-        }).toThrow("Error during booking: Invalid account ID provided");
+        }).toThrow("Error during booking: Invalid request: Invalid account ID provided");
         expect(mockTicketPaymentService).not.toHaveBeenCalled();
         expect(mockSeatReservationService).not.toHaveBeenCalled();         
     });
@@ -88,7 +88,7 @@ describe("TicketService", () => {
     test("should throw error and not call booking services if account number is below zero", () => {
         expect(() => {
             testTicketService.purchaseTickets(-1, [testdata.oneAdultReq]);
-        }).toThrow("Error during booking: Invalid account ID provided");
+        }).toThrow("Error during booking: Invalid request: Invalid account ID provided");
         expect(mockTicketPaymentService).not.toHaveBeenCalled();
         expect(mockSeatReservationService).not.toHaveBeenCalled();          
     });
