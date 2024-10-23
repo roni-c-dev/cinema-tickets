@@ -24,6 +24,7 @@ It is assumed that each infant will sit on a single adult lap
 CI/CD pipeline below is currently working when PR from named branch to main is created
 Developer has more familiarity with GitlabCI for CI/CD workflows - this is left in to showcase knowledge
 of the purpose of CI/CD and provide a basic level of protection at this stage
+Accidental push direct to main at commit SHA 6eac486befcefc2dead7c0f71474ac111c74ae82, branch protection turned on following this
 
 ## CI/CD Pipeline
 A very simple Github Actions pipeline has been added to run unit tests on pull request to main, this can be updated to include various code quality and security checks, helping to prevent bugs and issues from entering the production environment.   Would also run further automated workflows here to push deployment artifacts to the relevant Cloud hosting platform (for example AWS)
