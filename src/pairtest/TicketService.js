@@ -70,19 +70,13 @@ export default class TicketService {
    * @param { [TicketTypeRequest] } ticketTypeRequests 
    * @returns true or throws error via the functions being called
    */
-
+  // TODO - refactor with try-catch to make fully testable?
   // TODO - also potentially combine ticket count validation with adult check?
-  // This could allow me to validate/handle multiple errors
   #isRequestValid = (accountId, ticketTypeRequests) => {
-    try {
-      this.#hasValidAdultNumberInBooking(ticketTypeRequests);
-      this.#isAccountIDValid(accountId);
-      this.#validateTicketCountInRequest(ticketTypeRequests);
-      return true;
-    } catch (err) {
-      throw new InvalidPurchaseException("Invalid request: " + err.message);
-    }
-
+    if ((this.#hasValidAdultNumberInBooking(ticketTypeRequests)) && 
+        (this.#isAccountIDValid(accountId)) && this.#validateTicketCountInRequest(ticketTypeRequests)){
+      return true
+    } else return false
   }
 
   /**
@@ -180,9 +174,9 @@ export default class TicketService {
    */
   purchaseTickets(accountId, ...ticketTypeRequests) {
     try {
-      this.#isRequestValid(accountId, ...ticketTypeRequests);
-      return this.#finaliseBooking(accountId, ...ticketTypeRequests);
-      
+      if (this.#isRequestValid(accountId, ...ticketTypeRequests)){
+        return this.#finaliseBooking(accountId, ...ticketTypeRequests)
+      }
     } catch (err) {
       logger.log({
         message: "An error was thrown while booking",
