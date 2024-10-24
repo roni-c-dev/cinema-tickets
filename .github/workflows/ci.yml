@@ -6,9 +6,10 @@ on:
   push:
     branches:
       - '*refactor*'  # This will match any branch that contains "refactor"
+      - '*fix*'
   pull_request:
     branches:
-      - main  # Keep this to run on PRs to the main branch
+      - main  # Run on PRs to the main branch
 
 jobs:
   test:
@@ -28,3 +29,9 @@ jobs:
 
     - name: Run tests
       run: npm test
+    
+    - name: Check for vulnerabilities
+      run: npm audit
+    
+    - name: Check for outdated dependencies
+      run: npm outdated
