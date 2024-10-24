@@ -1,5 +1,4 @@
 import InvalidPurchaseException from "./lib/InvalidPurchaseException";
-import TicketTypeRequest from "./lib/TicketTypeRequest";
 import logger from "./utils/Logger";
 
 export default class TicketService {
