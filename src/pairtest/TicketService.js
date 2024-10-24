@@ -70,8 +70,7 @@ export default class TicketService {
    * @param { [TicketTypeRequest] } ticketTypeRequests 
    * @returns true or throws error via the functions being called
    */
-  // TODO - refactor with try-catch to make fully testable?
-  // TODO - also potentially combine ticket count validation with adult check?
+
   #isRequestValid = (accountId, ticketTypeRequests) => {
     if ((this.#hasValidAdultNumberInBooking(ticketTypeRequests)) && 
         (this.#isAccountIDValid(accountId)) && this.#validateTicketCountInRequest(ticketTypeRequests)){

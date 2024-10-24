@@ -99,7 +99,6 @@ describe("HelperService", () => {
             expect(HELPER_SERVICE.calculatePayment([testdata.exponentialAdultsReq])).toBe(3075000);
         })
 
-        // TODO - look at calculation - don't think we really want to perform calculations for 0 or negs
         test("should calculate payment for zero request", () => {
             expect(HELPER_SERVICE.calculatePayment([testdata.zeroAdultReq])).toBe(0);
         })
