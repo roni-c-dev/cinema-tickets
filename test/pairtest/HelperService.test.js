@@ -77,31 +77,31 @@ describe("HelperService", () => {
             expect(HELPER_SERVICE.countSeatsInRequest).toBeDefined();
         });
 
-        test("should count the total number of seats in request", () => {
-            expect(HELPER_SERVICE.countSeatsInRequest(testdata.familyReq)).toBe(3);
-        });
-
-        test("should count the total number of seats in request even if it exceeds current limit", () => {
-            expect(HELPER_SERVICE.countSeatsInRequest(testdata.familyTooBigReq)).toBe(25)
-        }); 
+        test.each([
+            [3, testdata.familyReq, "1 adult 2 child 1 infant"],
+            [25, testdata.familyTooBigReq, "25 adults 1 infant"],
+            [0, [testdata.zeroAdultReq], "0 adults - param intialised to 0"],    
+        ])(
+            "it should return %j for request %j (%j)",
+            (result, request) => {
+                expect (HELPER_SERVICE.countSeatsInRequest(request)).toBe(result);
+            }
+        );
     });
 
     describe("calculatePayment", () => {
-        test("should calculate the total payment due for requests", () => {
-            expect(HELPER_SERVICE.calculatePayment(testdata.familyReq)).toBe(55);
-        })
 
-        test("should calculate the NIL payment due for infant request", () => {
-            expect(HELPER_SERVICE.calculatePayment([testdata.twoInfantReq])).toBe(0)
-        })
-
-        test("should calculate payment for exponential request", () => {
-            expect(HELPER_SERVICE.calculatePayment([testdata.exponentialAdultsReq])).toBe(3075000);
-        })
-
-        test("should calculate payment for zero request", () => {
-            expect(HELPER_SERVICE.calculatePayment([testdata.zeroAdultReq])).toBe(0);
-        })
+        test.each([
+            [55, testdata.familyReq, "1 adult 2 child 1 infant"],
+            [0, [testdata.twoInfantReq], "2 infant"],
+            [3075000, [testdata.exponentialAdultsReq], "123e5 adults"],
+            [0, [testdata.zeroAdultReq], "0 adults - param intialised to 0"],    
+        ])(
+            "it should return %j for request %j (%j)",
+            (result, request) => {
+                expect (HELPER_SERVICE.calculatePayment(request)).toBe(result);
+            }
+        );
     })
 
 })
