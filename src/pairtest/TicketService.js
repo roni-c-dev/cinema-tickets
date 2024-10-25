@@ -67,14 +67,18 @@ export default class TicketService {
    * Checks overall validity calling each of the services
    * @param { Integer } accountId 
    * @param { [TicketTypeRequest] } ticketTypeRequests 
-   * @returns true or throws error via the functions being called
+   * @returns true or throws error based on the failing functions
    */
 
   #isRequestValid = (accountId, ticketTypeRequests) => {
-    if ((this.#hasValidAdultNumberInBooking(ticketTypeRequests)) && 
-        (this.#isAccountIDValid(accountId)) && this.#validateTicketCountInRequest(ticketTypeRequests)){
-      return true
-    } else return false
+    try {
+      this.#hasValidAdultNumberInBooking(ticketTypeRequests);
+      this.#isAccountIDValid(accountId);
+      this.#validateTicketCountInRequest(ticketTypeRequests);
+      return true;
+    } catch (err) {
+      throw new InvalidPurchaseException(err);
+    }
   }
 
   /**
@@ -172,9 +176,8 @@ export default class TicketService {
    */
   purchaseTickets(accountId, ...ticketTypeRequests) {
     try {
-      if (this.#isRequestValid(accountId, ...ticketTypeRequests)){
-        return this.#finaliseBooking(accountId, ...ticketTypeRequests)
-      }
+      this.#isRequestValid(accountId, ...ticketTypeRequests);
+      return this.#finaliseBooking(accountId, ...ticketTypeRequests);
     } catch (err) {
       logger.log({
         message: "An error was thrown while booking",
