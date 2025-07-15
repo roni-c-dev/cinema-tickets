@@ -4,12 +4,9 @@ on:
 # This is not quite right yet, its running on pushes from refactor branch into main when PR is created
 # and does not run on the branches themselves.
   push:
-    branches:
-      - '*refactor*'  # This will match any branch that contains "refactor"
-      - '*fix*'
+    branches: ["**"]
   pull_request:
-    branches:
-      - main  # Run on PRs to the main branch
+    branches: ["**"]
 
 jobs:
   test:
