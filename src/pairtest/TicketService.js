@@ -4,21 +4,21 @@ import logger from "./utils/Logger";
 export default class TicketService {
 
   // Use dependency injection so that these components can be changed at will
-  constructor(helperService, seatReserver, paymentService) {
-    this.HELPER_SERVICE = helperService;
+  constructor(ticketUtils, seatReserver, paymentService) {
+    this.TICKET_UTILS = ticketUtils;
     this.SEAT_RESERVER = seatReserver;
     this.PAYMENT_SERVICE = paymentService;
   }
 
   /**
-   * Check account validity using HelperService
+   * Check account validity using TICKET_UTILS
    * Return true if valid or throw an error
    * @param { Integer } accountId 
    * @returns true
    * @throws { InvalidPurchaseException }
    */
   #isAccountIDValid = (accountId) => {
-    if (!this.HELPER_SERVICE.hasValidAccountID(accountId)) {
+    if (!this.TICKET_UTILS.hasValidAccountID(accountId)) {
       logger.log({
         message: "Ticket request accountID threw an exception",
         level: "error"
@@ -28,14 +28,14 @@ export default class TicketService {
   }
 
   /**
-   * Check adult count validity using HelperService
+   * Check adult count validity using TICKET_UTILS
    * Return true if valid or throw an error
    * @param { [TicketTypeRequest] } ticketTypeRequests 
    * @returns true
    * @throws { InvalidPurchaseException }
    */
   #hasValidAdultNumberInBooking = (ticketTypeRequests) => {
-    if (!this.HELPER_SERVICE.hasValidAmountOfAdultsPresent(ticketTypeRequests)){
+    if (!this.TICKET_UTILS.hasValidAmountOfAdultsPresent(ticketTypeRequests)){
       logger.log({
         message: "Ticket request adult check threw an exception",
         level: "error"
@@ -45,15 +45,15 @@ export default class TicketService {
   }
 
   /**
-   * Check overall count validity using HelperService
-   * Return true if within limits (provided in HelperService) or throw an error
+   * Check overall count validity using TICKET_UTILS
+   * Return true if within limits (provided in TICKET_UTILS) or throw an error
    * @param { [TicketTypeRequest] } ticketTypeRequests 
    * @returns true
    * @throws { InvalidPurchaseException }
    */
   #validateTicketCountInRequest = (ticketTypeRequests) => {
-    const ticketCount = this.HELPER_SERVICE.countTicketsInRequest(ticketTypeRequests)
-    const MAXIMUM_TICKET_LIMIT = this.HELPER_SERVICE.MAXIMUM_TICKET_LIMIT;
+    const ticketCount = this.TICKET_UTILS.countTicketsInRequest(ticketTypeRequests)
+    const MAXIMUM_TICKET_LIMIT = this.TICKET_UTILS.MAXIMUM_TICKET_LIMIT;
     if (ticketCount > MAXIMUM_TICKET_LIMIT){
       logger.log({
         message: "Ticket count exceeded provided limit and threw an exception",
@@ -127,7 +127,7 @@ export default class TicketService {
   }
 
   /**
-   * Calls HelperService to establish booking details required
+   * Calls TICKET_UTILS to establish booking details required
    * Calls PaymentServivce to request payment, then SeatReservationService to reserve seats
    * @param { Integer } accountId 
    * @param  {...any} ticketTypeRequests 
@@ -136,9 +136,9 @@ export default class TicketService {
    */
   #finaliseBooking = (accountId, ...ticketTypeRequests) => {
     try {
-        const totalAmountToPay = this.HELPER_SERVICE.calculatePayment(...ticketTypeRequests);
-        const totalSeatsToAllocate = this.HELPER_SERVICE.countSeatsInRequest(...ticketTypeRequests);
-        const totalNumberInBooking = this.HELPER_SERVICE.countTicketsInRequest(...ticketTypeRequests);
+        const totalAmountToPay = this.TICKET_UTILS.calculatePayment(...ticketTypeRequests);
+        const totalSeatsToAllocate = this.TICKET_UTILS.countSeatsInRequest(...ticketTypeRequests);
+        const totalNumberInBooking = this.TICKET_UTILS.countTicketsInRequest(...ticketTypeRequests);
 
         this.#makePayment(accountId, totalAmountToPay);
         this.#reserveSeats(accountId, totalSeatsToAllocate);

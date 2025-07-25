@@ -1,4 +1,4 @@
-import HelperService from "../../src/pairtest/utils/HelperService";
+import TicketUtils from "../../src/pairtest/utils/TicketUtils";
 import * as testdata from "./testdata";
 import { jest } from "@jest/globals";
 
@@ -6,14 +6,14 @@ import { jest } from "@jest/globals";
 describe("HelperService", () => {
 
     // Test data is defined in testdata.js so it can be reused across files
-    const HELPER_SERVICE = new HelperService();
+    const TICKET_UTILS = new TicketUtils();
     
     describe("hasValidAmountOfAdultsPresent", () => {
         beforeEach(() => {
             jest.resetAllMocks();
         });
         test("should be defined", () => {
-            expect(HELPER_SERVICE.hasValidAmountOfAdultsPresent).toBeDefined();
+            expect(TICKET_UTILS.hasValidAmountOfAdultsPresent).toBeDefined();
         });
 
         test.each([
@@ -27,7 +27,7 @@ describe("HelperService", () => {
         ])(
             "it should return %j for request %j (%j)",
             (result, request) => {
-                expect(HELPER_SERVICE.hasValidAmountOfAdultsPresent(request)).toBe(result);
+                expect(TICKET_UTILS.hasValidAmountOfAdultsPresent(request)).toBe(result);
             }
         );
 
@@ -35,7 +35,7 @@ describe("HelperService", () => {
 
     describe("hasValidAccountID", () => {
         test("should be defined", () => {
-            expect(HELPER_SERVICE.hasValidAccountID).toBeDefined();
+            expect(TICKET_UTILS.hasValidAccountID).toBeDefined();
         });
 
         test.each([
@@ -49,14 +49,14 @@ describe("HelperService", () => {
         ])(
             "it should return %j for accountID %j (%j)",
             (result, accountId) => {
-                expect (HELPER_SERVICE.hasValidAccountID(accountId)).toBe(result);
+                expect (TICKET_UTILS.hasValidAccountID(accountId)).toBe(result);
             }
         );
     });
 
     describe("countTicketsInRequest", () => {
         test("should be defined", () => {
-            expect(HELPER_SERVICE.countTicketsInRequest).toBeDefined();
+            expect(TICKET_UTILS.countTicketsInRequest).toBeDefined();
         });
 
         test.each([
@@ -66,7 +66,7 @@ describe("HelperService", () => {
         ])(
             "it should return %j for request %j (%j)",
             (result, request) => {
-                expect (HELPER_SERVICE.countTicketsInRequest(request)).toBe(result);
+                expect (TICKET_UTILS.countTicketsInRequest(request)).toBe(result);
             }
         );
         
@@ -74,7 +74,7 @@ describe("HelperService", () => {
 
     describe("countSeatsInRequest", () => {
         test("should be defined", () => {
-            expect(HELPER_SERVICE.countSeatsInRequest).toBeDefined();
+            expect(TICKET_UTILS.countSeatsInRequest).toBeDefined();
         });
 
         test.each([
@@ -84,7 +84,7 @@ describe("HelperService", () => {
         ])(
             "it should return %j for request %j (%j)",
             (result, request) => {
-                expect (HELPER_SERVICE.countSeatsInRequest(request)).toBe(result);
+                expect (TICKET_UTILS.countSeatsInRequest(request)).toBe(result);
             }
         );
     });
@@ -99,7 +99,7 @@ describe("HelperService", () => {
         ])(
             "it should return %j for request %j (%j)",
             (result, request) => {
-                expect (HELPER_SERVICE.calculatePayment(request)).toBe(result);
+                expect (TICKET_UTILS.calculatePayment(request)).toBe(result);
             }
         );
     })

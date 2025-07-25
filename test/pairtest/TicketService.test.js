@@ -7,12 +7,12 @@ import TicketPaymentService from "../../src/thirdparty/paymentgateway/TicketPaym
 import { jest}  from "@jest/globals"
 
 import * as testdata from "./testdata";
-import HelperService from "../../src/pairtest/utils/HelperService";
+import TicketUtils from "../../src/pairtest/utils/TicketUtils";
 
 describe("TicketService", () => {
     let mockSeatReservationService, mockTicketPaymentService;
 
-    const testTicketService =  new TicketService(new HelperService(), new SeatReservationService(), new TicketPaymentService());
+    const testTicketService =  new TicketService(new TicketUtils(), new SeatReservationService(), new TicketPaymentService());
     beforeEach(() => {
         // reset any previous mock and mock the appropriate services anew
         jest.clearAllMocks();  

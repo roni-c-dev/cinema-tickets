@@ -1,9 +1,9 @@
 /**
- * External class for helper methods to allow for testability
+ * External class for utility methods to allow for testability
  * and retain the business rules outside TicketService
  */
 
-export default class HelperService {
+export default class TicketUtils {
     MAXIMUM_TICKET_LIMIT = 25;
     ADULT_TICKET_PRICE = 25;
     CHILD_TICKET_PRICE = 15;
